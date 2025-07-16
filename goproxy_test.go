@@ -120,18 +120,19 @@ func TestGoproxyServeHTTP(t *testing.T) {
 		{
 			n:                1,
 			path:             "/example.com/@latest",
-			wantStatusCode:   http.StatusOK,
-			wantContentType:  "application/json; charset=utf-8",
-			wantCacheControl: "public, max-age=60",
-			wantContent:      info,
+			wantStatusCode:   http.StatusNotFound,
+			wantContentType:  "text/plain; charset=utf-8",
+			wantCacheControl: "public, max-age=86400",
+			wantContent:      "not found",
 		},
 		{
 			n:                2,
 			method:           http.MethodHead,
 			path:             "/example.com/@latest",
-			wantStatusCode:   http.StatusOK,
-			wantContentType:  "application/json; charset=utf-8",
-			wantCacheControl: "public, max-age=60",
+			wantStatusCode:   http.StatusNotFound,
+			wantContentType:  "text/plain; charset=utf-8",
+			wantCacheControl: "public, max-age=86400",
+			wantContent:      "not found",
 		},
 		{
 			n:                3,
@@ -226,7 +227,7 @@ func TestGoproxyServeFetch(t *testing.T) {
 	proxyServer := newHTTPTestServer(t, http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
 		switch req.URL.Path {
 		case "/example.com/@latest":
-			responseSuccess(rw, req, strings.NewReader(info), "application/json; charset=utf-8", -2)
+			responseNotFound(rw, req, -2)
 		case "/example.com/@v/list":
 			responseSuccess(rw, req, strings.NewReader(list), "text/plain; charset=utf-8", -2)
 		default:
@@ -255,10 +256,10 @@ func TestGoproxyServeFetch(t *testing.T) {
 		{
 			n:                1,
 			target:           "example.com/@latest",
-			wantStatusCode:   http.StatusOK,
-			wantContentType:  "application/json; charset=utf-8",
-			wantCacheControl: "public, max-age=60",
-			wantContent:      info,
+			wantStatusCode:   http.StatusNotFound,
+			wantContentType:  "text/plain; charset=utf-8",
+			wantCacheControl: "public, max-age=86400",
+			wantContent:      "not found",
 		},
 		{
 			n: 2,
@@ -270,10 +271,10 @@ func TestGoproxyServeFetch(t *testing.T) {
 			},
 			target:             "example.com/@latest",
 			disableModuleFetch: true,
-			wantStatusCode:     http.StatusOK,
-			wantContentType:    "application/json; charset=utf-8",
-			wantCacheControl:   "public, max-age=60",
-			wantContent:        info,
+			wantStatusCode:     http.StatusNotFound,
+			wantContentType:    "text/plain; charset=utf-8",
+			wantCacheControl:   "public, max-age=86400",
+			wantContent:        "not found",
 		},
 		{
 			n:                3,

@@ -284,11 +284,10 @@ func TestGoFetcherProxyQuery(t *testing.T) {
 		wantErr      error
 	}{
 		{
-			n:           1,
-			path:        "example.com",
-			query:       "latest",
-			wantVersion: infoVersion,
-			wantTime:    infoTime,
+			n:       1,
+			path:    "example.com",
+			query:   "latest",
+			wantErr: notExistErrorf("not found"),
 		},
 		{
 			n:           2,
