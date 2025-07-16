@@ -132,7 +132,6 @@ func TestGoproxyServeHTTP(t *testing.T) {
 			wantStatusCode:   http.StatusNotFound,
 			wantContentType:  "text/plain; charset=utf-8",
 			wantCacheControl: "public, max-age=86400",
-			wantContent:      "not found",
 		},
 		{
 			n:                3,

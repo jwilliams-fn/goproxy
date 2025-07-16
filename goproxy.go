@@ -154,7 +154,7 @@ func (g *Goproxy) serveFetch(rw http.ResponseWriter, req *http.Request, target s
 	}
 	switch after {
 	case "latest":
-		responseNotFound(rw, req, 86400, "not found")
+		responseNotFound(rw, req, 86400)
 		return
 	case "v/list":
 		g.serveFetchList(rw, req, target, modulePath, noFetch)
