@@ -157,6 +157,7 @@ func (g *Goproxy) serveFetch(rw http.ResponseWriter, req *http.Request, target s
 		responseNotFound(rw, req, 86400)
 		return
 	case "v/list":
+		g.logger.Info("Listing versions for module", "module", modulePath)
 		g.serveFetchList(rw, req, target, modulePath, noFetch)
 		return
 	}
